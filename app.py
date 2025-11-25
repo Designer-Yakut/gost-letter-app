@@ -192,6 +192,7 @@ Proprietary software 2025</textarea>
     <input type="submit" value="Сгенерировать gif(V), PDF, PNG и SVG">
 
     {% if generated %}
+    <p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
       <p style="margin-top: 20px;">
         <label for="output_dir">Папка для сохранения:</label>
         <input type="text" name="output_dir"
@@ -432,6 +433,26 @@ def download_svg():
 # ------------------------------------------------
 #  ЗАПУСК
 # ------------------------------------------------
+
+@app.route("/download/gif")
+def download_gif():
+    import os, glob
+    from flask import send_file
+    from datetime import datetime
+
+    date_str = datetime.now().strftime('%Y-%m-%d')
+    folders = glob.glob(f"output_{date_str}_*")
+    if folders:
+        output_dir = folders[0]
+        gif_path = os.path.join(output_dir, "training_images.gif")
+        if os.path.exists(gif_path):
+            return send_file(gif_path,
+                             as_attachment=True,
+                             download_name="training_images.gif",
+                             mimetype="image/gif")
+    return "GIF не найден", 404
+
+
 if __name__ == "__main__":
     """
     Запуск Flask-приложения локально.
