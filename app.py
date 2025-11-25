@@ -177,9 +177,7 @@ HTML_FORM = """
 
     <label>Введите текст здесь или выберите файл:</label>
     <textarea name="text" rows="6" cols="60">Программа
-обучения и тестирования
-навыков написания шрифта для 
-начинающих изучать черчение
+обучения
 автор  Mike Yakutsenak
 Proprietary software 2025</textarea>
 
