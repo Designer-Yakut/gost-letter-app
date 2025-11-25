@@ -15,7 +15,7 @@ import re
 # ------------------ Константы ------------------
 MM_INCH = 25.4
 DEFAULT_PAGE_W, DEFAULT_PAGE_H = 209.9, 296.7
-DEFAULT_DPI = 150
+DEFAULT_DPI = 300
 DEFAULT_LINE_STEP = 15.5
 DEFAULT_THIN_STEP = 1.4
 DEFAULT_ANGLE = -15
@@ -173,13 +173,12 @@ class TextRenderer:
         self.frame_color = frame_color
         self.grid_color = grid_color
         self.font_color = font_color
-        self.dpi = 150  # снижено для экономии памяти
+        self.dpi = dpi
         self.padding = padding
         self.scale = get_text_scale(font_size, self.font)
 
     # -----------------------------------------------------
     def render_to_figure(self, lines,
-        lines = lines[:2]  # ограничим до 2 строк
                          show_grid=True,
                          show_font=True,
                          dots_only=False,
@@ -289,6 +288,8 @@ def render_training_letter_images(
     if not frames:
         print("⚠️ Нет доступных букв для создания анимации.")
         return
+
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)    
 
     frames[0].save(
         save_path,
