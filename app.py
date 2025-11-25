@@ -179,7 +179,7 @@ HTML_FORM = """
     <textarea name="text" rows="6" cols="60">Программа
 обучения
 автор  Mike Yakutsenak
-Proprietary software 2025</textarea>
+2025</textarea>
 
     Загрузить текстовый файл (.txt):
     <input type="file" name="textfile">
