@@ -194,10 +194,6 @@ Proprietary software 2025</textarea>
     {% if generated %}
     <p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
       <p style="margin-top: 20px;">
-        <label for="output_dir">Папка для сохранения:</label>
-        <input type="text" name="output_dir"
-               placeholder="например, output_2025-10-07_14-33-11_admin"
-               style="width: 100%; padding: 5px;" />
 
       <div style="line-height: 0.4em;">
 
