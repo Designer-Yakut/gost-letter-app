@@ -190,7 +190,7 @@ HTML_FORM = """
     <input type="submit" value="Сгенерировать gif(V), PDF, PNG и SVG">
 
     {% if generated %}
-    <p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
+    #<p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
       <p style="margin-top: 20px;">
 
       <div style="line-height: 0.4em;">
@@ -296,6 +296,18 @@ def index():
 
         # --- Выбор шрифта ---
         font_file = request.form.get("font_file", "gost_type_a_italic.ttf")
+
+        # Если имя шрифта не из списка доступных — сбрасываем на дефолт
+        if font_file not in AVAILABLE_FONTS:
+            font_file = "gost_type_a_italic.ttf"
+
+        font_path = os.path.join(FONTS_DIR, font_file)
+
+        # Проверка: файл реально существует на сервере (на случай ошибок деплоя)
+        if not os.path.isfile(font_path):
+            return "❌ Ошибка: файл шрифта не найден на сервере. Проверь папку fonts/ и Git.", 400
+
+        font_file = request.form.get("font_file", "gost_type_a_italic.ttf")
         if not font_file or font_file not in AVAILABLE_FONTS:
             font_file = "gost_type_a_italic.ttf"
         font_path = os.path.join(FONTS_DIR, font_file)
@@ -347,11 +359,11 @@ def index():
         )
 
         # Генерация SVG
-        svg_buffer = io.BytesIO()
-        fig.savefig(svg_buffer, format="svg", bbox_inches="tight")
-        svg_buffer.seek(0)
-        generated_svg = svg_buffer
-
+        #svg_buffer = io.BytesIO()
+        #fig.savefig(svg_buffer, format="svg", bbox_inches="tight")
+        #svg_buffer.seek(0)
+        #generated_svg = svg_buffer
+        generated_svg = None
 
         # --- Сохранение PDF и PNG в память ---
         buf_pdf, buf_png = io.BytesIO(), io.BytesIO()
