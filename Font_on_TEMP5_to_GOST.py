@@ -15,7 +15,7 @@ import re
 # ------------------ Константы ------------------
 MM_INCH = 25.4
 DEFAULT_PAGE_W, DEFAULT_PAGE_H = 209.9, 296.7
-DEFAULT_DPI = 200
+DEFAULT_DPI = 300
 DEFAULT_LINE_STEP = 15.5
 DEFAULT_THIN_STEP = 1.4
 DEFAULT_ANGLE = -15
