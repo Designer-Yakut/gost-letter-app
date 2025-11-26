@@ -27,7 +27,6 @@ import os
 from Font_on_TEMP5_to_GOST import TextRenderer, render_training_letter_images
 import getpass
 from datetime import datetime
-from PIL import Image, ImageDraw, ImageFont
 
 # ------------------------------------------------
 #  ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ
@@ -349,34 +348,28 @@ def index():
             line_width=line_width
         )
 
-        # --- Генерация PNG через Pillow вместо matplotlib ---
+        fig = renderer.render_to_figure(
+            lines,
+            show_grid=show_grid,
+            show_font=show_font,
+            dots_only=dots_only,
+            classic_grid=classic_grid,
+            thin_step_h=thin_step_h,
+            thin_step_v=thin_step_v
+        )
 
-        # Объединяем строки в одну (временно)
-        text = "\n".join(lines)
-        width, height = 1000, 300
-        font_size_px = int(font_size * 3.8)  # коэффициент подбора визуально
-
-        image = Image.new("L", (width, height), color=255)
-        draw = ImageDraw.Draw(image)
-
-        try:
-            font = ImageFont.truetype(font_path, font_size_px)
-        except IOError:
-            return "❌ Ошибка: не удалось загрузить шрифт.", 400
-
-        draw.multiline_text((50, 50), text, font=font, fill=0, spacing=10)
-
-        # Сохраняем PNG и PDF
-        buf_png = io.BytesIO()
-        buf_pdf = io.BytesIO()
-
-        image.save(buf_png, format="PNG")
-        image.convert("RGB").save(buf_pdf, format="PDF")
-
-        buf_png.seek(0)
-        buf_pdf.seek(0)
+        # Генерация SVG
+        #svg_buffer = io.BytesIO()
+        #fig.savefig(svg_buffer, format="svg", bbox_inches="tight")
+        #svg_buffer.seek(0)
+        #generated_svg = svg_buffer
         generated_svg = None
 
+        # --- Сохранение PDF и PNG в память ---
+        buf_pdf, buf_png = io.BytesIO(), io.BytesIO()
+        fig.savefig(buf_pdf, format="pdf", bbox_inches="tight")
+        fig.savefig(buf_png, format="png", dpi=300, bbox_inches="tight")
+        buf_pdf.seek(0), buf_png.seek(0)
 
         # Сохраняем буферы в глобальные переменные (для скачивания)
         global generated_pdf, generated_png
