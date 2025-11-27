@@ -167,9 +167,8 @@ class TextRenderer:
         Инициализация параметров отрисовщика.
         """
         self.font = FontProperties(fname=font_path)
-    if spacing is None:
-        self.spacing = font_size * 0.42
-    else:
+        if spacing is None:
+            spacing = font_size * 0.42
         self.spacing = spacing
         self.font_size = font_size
         self.line_width = line_width            # ✅ сохраняем выбранную толщину
