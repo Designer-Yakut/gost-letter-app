@@ -295,8 +295,21 @@ def index():
             except (TypeError, ValueError):
                 return default
 
-        spacing   = _f("spacing", 4.2)
-        font_size = _f("font_size", 10.0)
+        font_size_str = request.form.get("font_size", "10").strip()
+        spacing_str = request.form.get("spacing", "").strip()
+
+        try:
+            font_size = float(font_size_str)
+        except ValueError:
+            font_size = 10.0
+
+        if spacing_str:
+            try:
+                spacing = float(spacing_str)
+            except ValueError:
+                spacing = font_size * 0.42
+        else:
+            spacing = font_size * 0.42
         thin_step_h = _f("thin_step_h", round(font_size / 14.0, 1))
         thin_step_v = _f("thin_step_v", round(font_size / 14.0, 1))
 
