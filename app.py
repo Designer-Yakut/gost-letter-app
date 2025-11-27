@@ -185,7 +185,10 @@ HTML_FORM = """
     <input type="file" name="textfile">
 
     <input type="checkbox" name="training_real">
-    Режим обучения (символы кириллицы из текста, см. gif)
+    <span style="font-size: 0.8em; color: #708090;">
+      Режим обучения (символы кириллицы и латиницы из текста. Без знаков! см. gif)
+    </span>
+
 
     <input type="submit" value="Сгенерировать gif(V), PDF, PNG и SVG">
 
@@ -197,7 +200,12 @@ HTML_FORM = """
 
       <p><a href="/download/pdf">📄 Скачать PDF</a></p>
       <p><a href="/download/png">🖼️ Скачать PNG</a></p>
-      <p><a href="/download/svg">🧬 Скачать SVG</a></p>
+      <p>
+      <a href="/download/svg">🧬 Скачать SVG</a>
+      <span style="font-size: 0.8em; color: #FF8C00; margin-left: 8px;">
+        Функция не поддерживается на Render (малые инстансы, 512MB памяти)
+      </span>
+    </p>
     {% endif %}
   </form>
 
