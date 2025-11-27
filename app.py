@@ -127,11 +127,11 @@ HTML_FORM = """
     <label>Интервал между словами (мм):</label>
     <input type="number" name="spacing" value="4.2" step="0.1">
 
-    <label>Высота прописных букв (мм):</label>
+    <label>Высота прописных букв, h (мм):</label>
     <input type="number" name="font_size" id="font_size" value="10" step="0.1">
 
     <input type="checkbox" id="auto_line_width" name="auto_line_width" checked>
-    Стандартная толщина линий шрифта
+    Стандартная толщина линий шрифта, d (мм), тип А d=1/14h
 
     <label>Толщина линий шрифта (мм):</label>
     <input type="number" id="line_width" name="line_width" value="0.7" step="0.1">
