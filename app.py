@@ -125,7 +125,7 @@ HTML_FORM = """
   <form method="post" enctype="multipart/form-data">
 
     <label>Интервал между словами (мм):</label>
-    <input type="number" name="spacing" placeholder="4.2" step="0.1">
+    <input type="number" name="spacing" value="4.2" step="0.1">
 
     <label>Высота прописных букв, h (мм):</label>
     <input type="number" name="font_size" id="font_size" value="10" step="0.1">
@@ -257,6 +257,25 @@ Yakutsenak 2025</textarea>
     document.getElementById("font_size").addEventListener("input", updateLineWidth);
     document.getElementById("auto_line_width").addEventListener("change", updateLineWidth);
   </script>
+  <!-- Высота прописных букв -->
+<label for="font_size">Высота прописных букв (мм):</label>
+<input type="number" id="font_size" name="font_size" value="10" step="0.1">
+
+<!-- Интервал между словами -->
+<label for="spacing">Интервал между словами (мм):</label>
+<input type="number" id="spacing" name="spacing" value="4.2" step="0.1">
+
+<script>
+  const fontInput = document.getElementById('font_size');
+  const spacingInput = document.getElementById('spacing');
+
+  fontInput.addEventListener('input', () => {
+    const fs = parseFloat(fontInput.value);
+    if (!isNaN(fs)) {
+      spacingInput.value = (fs * 0.42).toFixed(2);
+    }
+  });
+</script>
 </body>
 </html>
 """
