@@ -147,20 +147,28 @@ HTML_FORM = """
 
     <b>Цвета элементов:</b><br>
 
-    <span style="font-size: 0.9em;">Цвет рамки:</span>
-    <input type="text" id="frame_color" name="frame_color" value="#B3E5FC">
+    <label for="frame_color">Цвет рамки:</label>
+    <select name="frame_color" id="frame_color">
+      <option value="#B3E5FC" selected>Light Sky Blue (#B3E5FC)</option>
+      <option value="#AAAAAA">Gray (#AAAAAA)</option>
+    </select>
+
 
     <label for="grid_color">Цвет сетки:</label>
     <select name="grid_color" id="grid_color">
       <option value="#81D4FA" selected>Sky Blue (#81D4FA)</option>
-      <option value="#999999">Gray (#999999)</option>
+      <option value="whitesmoke">White Smoke (F5F5F5)</option>
       <option value="#CCCCCC">Light Gray (#CCCCCC)</option>
+      <option value="#AAAAAA">closer to silver (#AAAAAA)</option>
+      <option value="#999999">Gray (#999999)</option>
       <option value="#000000">Black (#000000)</option>
     </select>
 
-    <span style="font-size: 0.9em;">Цвет букв/точек:</span>
-    <input type="text" id="font_color" name="font_color" value="lightgray">
-
+    <label for="font_color">Цвет букв:</label>
+    <select name="font_color" id="font_color">
+      <option value="lightgray" selected>Light Gray (D3D3D3)</option>
+      <option value="whitesmoke">White Smoke (F5F5F5)</option>
+    </select>
     <input type="checkbox" id="use_gray" name="use_gray">
     <span style="font-size: 0.9em;">Использовать серую палитру</span><br><br>
 
