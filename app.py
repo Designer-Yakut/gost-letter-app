@@ -125,7 +125,7 @@ HTML_FORM = """
   <form method="post" enctype="multipart/form-data">
 
     <label>Интервал между словами (мм):</label>
-    <input type="number" name="spacing" value="4.2" step="0.1">
+    <input type="number" name="spacing" placeholder="4.2" step="0.1">
 
     <label>Высота прописных букв, h (мм):</label>
     <input type="number" name="font_size" id="font_size" value="10" step="0.1">
