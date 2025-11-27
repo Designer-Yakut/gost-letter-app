@@ -150,8 +150,13 @@ HTML_FORM = """
     <span style="font-size: 0.9em;">Цвет рамки:</span>
     <input type="text" id="frame_color" name="frame_color" value="#B3E5FC">
 
-    <span style="font-size: 0.9em;">Цвет сетки:</span>
-    <input type="text" id="grid_color" name="grid_color" value="#81D4FA">
+    <label for="grid_color">Цвет сетки:</label>
+    <select name="grid_color" id="grid_color">
+      <option value="#81D4FA" selected>Sky Blue (#81D4FA)</option>
+      <option value="#999999">Gray (#999999)</option>
+      <option value="#CCCCCC">Light Gray (#CCCCCC)</option>
+      <option value="#000000">Black (#000000)</option>
+    </select>
 
     <span style="font-size: 0.9em;">Цвет букв/точек:</span>
     <input type="text" id="font_color" name="font_color" value="lightgray">
