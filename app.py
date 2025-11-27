@@ -175,15 +175,13 @@ HTML_FORM = """
       {% endfor %}
     </select>
     <p>
-    <label>Введите текст здесь или выберите файл:</label>
+    <label>Введите текст ниже или выберите файл:</label>
     <span style="font-size: 0.8em; color: #FF8C00; margin-left: 8px;">
         *Мин. строк и символов для Render, зависит от h
       </span>
     <p>
-    <textarea name="text" rows="6" cols="60">Программа
-обучения
-автор  Mike Yakutsenak
-2025</textarea>
+    <textarea name="text" rows="6" cols="60">Автор
+    Yakutsenak 2025</textarea>
 
     Загрузить текстовый файл (.txt):
     <input type="file" name="textfile">
