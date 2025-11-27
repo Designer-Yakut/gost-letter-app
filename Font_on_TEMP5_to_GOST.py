@@ -76,7 +76,7 @@ def compute_text_boxes(lines, center_x, base_y, line_step, scale, fontprops,
     for line in lines:
         total_w, _ = measure_line_total_width(line, scale, fontprops, spacing_mm)
         x = center_x - total_w / 2.0 - padding
-        h = cap_height_mm + 2 * padding
+        h = cap_height_mm + (cap_height_mm * 0.25) * padding
         y_box = y - padding
         boxes.append((x, y_box, total_w + 2 * padding, h))
         y -= line_step
@@ -167,6 +167,9 @@ class TextRenderer:
         Инициализация параметров отрисовщика.
         """
         self.font = FontProperties(fname=font_path)
+    if spacing is None:
+        self.spacing = font_size * 0.42
+    else:
         self.spacing = spacing
         self.font_size = font_size
         self.line_width = line_width            # ✅ сохраняем выбранную толщину
