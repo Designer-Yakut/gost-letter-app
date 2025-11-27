@@ -16,7 +16,7 @@ import re
 MM_INCH = 25.4
 DEFAULT_PAGE_W, DEFAULT_PAGE_H = 209.9, 296.7
 DEFAULT_DPI = 100
-DEFAULT_LINE_STEP = 15.5
+DEFAULT_LINE_STEP = 15.7
 DEFAULT_THIN_STEP = 1.4
 DEFAULT_ANGLE = -15
 CORRECTION_K = 0.7
@@ -176,6 +176,8 @@ class TextRenderer:
         self.dpi = dpi
         self.padding = padding
         self.scale = get_text_scale(font_size, self.font)
+        self.line_step = self.font_size * 1.57  # автоматический шаг строки, ранее было 15.7 при font_size=10
+
 
     # -----------------------------------------------------
     def render_to_figure(self, lines,
@@ -202,11 +204,11 @@ class TextRenderer:
         # Координаты начала текста
         center_x = (x0 + x1) / 2.0
         start_y = y0 + (y1 - y0) * 0.65
-        base_y = start_y - (start_y % DEFAULT_LINE_STEP)
-
+        line_step = self.line_step
+        base_y = start_y - (start_y % line_step)
         # Расчёт "боксов" для сетки
         boxes = compute_text_boxes(lines, center_x, base_y,
-                                   DEFAULT_LINE_STEP, self.scale, self.font,
+                                   line_step, self.scale, self.font,
                                    self.spacing, self.font_size, padding=self.padding)
 
         # Отрисовка сетки (если включена)
@@ -234,7 +236,7 @@ class TextRenderer:
                                cap_height_mm=self.font_size,
                                line_width_mm=self.line_width,   # ✅ теперь используется переданная толщина
                                edge_color=self.font_color)
-            y -= DEFAULT_LINE_STEP
+            y -= line_step
 
         return fig
 # =====================================================================
