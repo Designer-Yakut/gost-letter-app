@@ -27,6 +27,7 @@ import os
 from Font_on_TEMP5_to_GOST import TextRenderer, render_training_letter_images
 import getpass
 from datetime import datetime
+from shutil import copyfile
 
 # ------------------------------------------------
 #  ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ
@@ -224,6 +225,13 @@ Yakutsenak 2025</textarea>
       </span>
     </p>
     {% endif %}
+
+    {% if 'training_real' in request.form %}
+      <p>🌀 Просмотр анимации:</p>
+      <img src="/static/training.gif" alt="GIF-анимация" style="max-width:100%; border:1px solid #ccc; padding:5px;">
+    {% endif %}
+
+
   </form>
 
   <script>
@@ -356,18 +364,12 @@ def index():
             font_file = "gost_type_a_italic.ttf"
         font_path = os.path.join(FONTS_DIR, font_file)
         
-        # --- Режим обучения (реальные символы) — создаёт training_real.gif ---
+        # --- Режим обучения (реальные символы) — создаёт training_images.gif ---
         if "training_real" in request.form:
             try:
                 from Font_on_TEMP5_to_GOST import render_training_letter_images
-                output_dir = request.form.get("output_dir")
-                if not output_dir or output_dir.strip() == "":
-                    from datetime import datetime
-                    import getpass
-                    username = getpass.getuser()
-                    date_str = datetime.now().strftime("%Y-%m-%d")
-                    output_dir = f"output_{date_str}_{username}" # Выбор папки для GIF анимации
 
+                output_dir = os.path.join("static", "training")  # Выбор папки для GIF-анимации
                 os.makedirs(output_dir, exist_ok=True)
 
                 gif_path = os.path.join(output_dir, "training_images.gif")
@@ -375,13 +377,10 @@ def index():
 
                 print(f"✅ training_images.gif сохранён в: {gif_path}")
 
-                print("✅ training_images.gif сохранён (по PNG)")
-                
             except Exception as e:
                 print("⚠️ Ошибка при создании training_real.gif:", e)
 
-
-                # --- Рендер ---
+                # ---- Рендер ----
         renderer = TextRenderer(
             font_path=font_path,
             spacing=spacing,
