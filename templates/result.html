@@ -5,11 +5,16 @@
     <title>Результат генерации GIF</title>
 </head>
 <body>
-    <h2>Сгенерированная анимация</h2>
+    <h1>Генерация завершена!</h1>
+
     <p><strong>Время генерации:</strong> {{ generation_time }} сек</p>
-    <img src="{{ gif_url }}" alt="GIF результат" style="max-width: 90%; border: 1px solid #ccc;">
-    <br><br>
-    <a href="/" style="margin-right: 20px;">← Назад</a>
-    <a href="{{ retry_url }}">Повторить генерацию</a>
+
+    <img src="{{ gif_url }}" alt="Сгенерированный GIF" style="max-width:100%; height:auto;"/>
+
+    <p>
+        <a href="{{ gif_url }}" download>📥 Скачать GIF</a> |
+        <a href="{{ retry_url }}">🔁 Повторить</a>
+    </p>
 </body>
 </html>
+
