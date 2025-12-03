@@ -591,14 +591,24 @@ def show_gif():
     gif_url = f"/static/tmp/{filename}"
 
     # 🔁 Удалим файл после отправки ответа браузеру
+    
+    import threading
+
     @after_this_request
     def cleanup(response):
-        try:
-            os.remove(gif_path)
-            print(f"[auto-delete] Удалён: {filename}")
-        except Exception as e:
-            print(f"[WARN] Не удалось удалить {filename}: {e}")
+        path_to_remove = gif_path  # заморозим текущее значение
+
+        def delayed_remove():
+            try:
+                os.remove(path_to_remove)
+                print(f"[auto-delete] Удалён: {filename}")
+            except Exception as e:
+                print(f"[WARN] Не удалось удалить {filename}: {e}")
+                print(f"[auto-delete] Удалён: {filename}", flush=True)
+
+        threading.Timer(3.0, delayed_remove).start()  # задержка 3 секунды
         return response
+
 
     return render_template("result.html",
                            gif_url=gif_url,
