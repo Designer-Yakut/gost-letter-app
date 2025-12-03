@@ -145,7 +145,7 @@ HTML_FORM = """
   </style>
 </head>
 <body>
-  <h2 style="color: #FF9800;">Тест-тренажер написания шрифта</h2>
+  <h2 style="color: #FF9800;">Тест-тренажер написания шрифта (демо-версия)</h2>
   <form method="post" enctype="multipart/form-data">
 
     <label>Интервал между словами (мм):</label>
