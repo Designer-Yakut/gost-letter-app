@@ -550,6 +550,81 @@ def show_readme():
         return "<p style='color:red;'>❌ README.md не найден.</p>", 404
 
 
+
+from flask import redirect, url_for
+from uuid import uuid4
+import time
+
+@app.route("/generate_gif_only", methods=["POST"])
+def generate_gif_only():
+    lines = request.form.get("text", "").splitlines()
+    lines = [ln.strip() for ln in lines if ln.strip()]
+    if not lines:
+        return "Нет текста", 400
+
+    output_dir = "static/tmp"
+    os.makedirs(output_dir, exist_ok=True)
+    gif_filename = f"training_{uuid4().hex}.gif"
+    gif_path = os.path.join(output_dir, gif_filename)
+
+    start = time.perf_counter()
+    render_training_letter_images(lines, save_path=gif_path)
+    gen_time = round(time.perf_counter() - start, 2)
+
+    return redirect(url_for("show_gif", filename=gif_filename, t=gen_time))
+
+@app.route("/show_gif")
+def show_gif():
+    filename = request.args.get("filename")
+    gen_time = request.args.get("t", "–")
+
+    if not filename:
+        return "Файл не указан", 400
+
+    gif_path = os.path.join("static", "tmp", filename)
+    if not os.path.exists(gif_path):
+        return "GIF не найден", 404
+
+    gif_url = f"/static/tmp/{filename}"
+
+    response = render_template("result.html",
+                               gif_url=gif_url,
+                               generation_time=gen_time,
+                               retry_url="/")
+
+    try:
+        os.remove(gif_path)
+    except Exception as e:
+        print(f"[WARN] Не удалось удалить временный GIF: {e}")
+
+    return response
+
+# ------------------------------------------------
+#  AUTO-CLEAN ВРЕМЕННЫХ .GIF ФАЙЛОВ
+# ------------------------------------------------
+def cleanup_old_gifs(folder="static/tmp", age_sec=600):
+    import time
+    now = time.time()
+    if not os.path.isdir(folder):
+        return
+    for file in os.listdir(folder):
+        if file.endswith(".gif"):
+            full_path = os.path.join(folder, file)
+            if os.path.isfile(full_path):
+                mtime = os.path.getmtime(full_path)
+                if now - mtime > age_sec:
+                    try:
+                        os.remove(full_path)
+                        print(f"[auto-clean] Удалён: {file}")
+                    except Exception as e:
+                        print(f"[auto-clean] Ошибка удаления {file}: {e}")
+
+@app.before_request
+def run_cleanup():
+    cleanup_old_gifs()
+
+
+# ↓↓↓ оставить ниже, без изменений ↓↓↓
 if __name__ == "__main__":
     """
     Запуск Flask-приложения локально.
