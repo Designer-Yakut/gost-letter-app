@@ -485,20 +485,12 @@ def download_svg():
 
 @app.route("/download/gif")
 def download_gif():
-    import os, glob
-    from flask import send_file
-    from datetime import datetime
-
-    date_str = datetime.now().strftime('%Y-%m-%d')
-    folders = glob.glob(f"output_{date_str}_*")
-    if folders:
-        output_dir = folders[0]
-        gif_path = os.path.join(output_dir, "training_images.gif")
-        if os.path.exists(gif_path):
-            return send_file(gif_path,
-                             as_attachment=True,
-                             download_name="training_images.gif",
-                             mimetype="image/gif")
+    gif_path = os.path.join("static", "training", "training_images.gif")
+    if os.path.exists(gif_path):
+        return send_file(gif_path,
+                         as_attachment=True,
+                         download_name="training_images.gif",
+                         mimetype="image/gif")
     return "GIF не найден", 404
 @app.route("/readme")
 def show_readme():
