@@ -573,6 +573,9 @@ def generate_gif_only():
 
     return redirect(url_for("show_gif", filename=gif_filename, t=gen_time))
 
+from flask import render_template, request, after_this_request
+import os
+
 @app.route("/show_gif")
 def show_gif():
     filename = request.args.get("filename")
@@ -587,17 +590,20 @@ def show_gif():
 
     gif_url = f"/static/tmp/{filename}"
 
-    response = render_template("result.html",
-                               gif_url=gif_url,
-                               generation_time=gen_time,
-                               retry_url="/")
+    # 🔁 Удалим файл после отправки ответа браузеру
+    @after_this_request
+    def cleanup(response):
+        try:
+            os.remove(gif_path)
+            print(f"[auto-delete] Удалён: {filename}")
+        except Exception as e:
+            print(f"[WARN] Не удалось удалить {filename}: {e}")
+        return response
 
-    try:
-        os.remove(gif_path)
-    except Exception as e:
-        print(f"[WARN] Не удалось удалить временный GIF: {e}")
-
-    return response
+    return render_template("result.html",
+                           gif_url=gif_url,
+                           generation_time=gen_time,
+                           retry_url="/")
 
 # ------------------------------------------------
 #  AUTO-CLEAN ВРЕМЕННЫХ .GIF ФАЙЛОВ
