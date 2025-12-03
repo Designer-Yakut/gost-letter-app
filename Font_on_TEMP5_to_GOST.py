@@ -256,28 +256,6 @@ import numpy as np
 from PIL import Image
 import os
 
-
-    import imageio
-    # Сохраняем как анимацию
-    if frames:
-        imageio.mimsave(save_path, frames, format='GIF', duration=0.8)
-        print(f"✅ training_images.gif сохранён: {save_path}")
-    else:
-        print("⚠️ Не удалось создать GIF — frames пуст")
-def render_training_letter_images(
-    text_lines,
-    image_dir="letter_images",
-    save_path="training_images.gif",
-    canvas_size=(300, 300),
-    frame_duration=0.5
-
-    if not frames:
-        print("⚠️ Нет доступных букв для создания анимации.")
-        return
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    import imageio
-    imageio.mimsave(save_path, frames, format='GIF', duration=frame_duration)
-    print(f"✅ GIF сохранён: {save_path}")
 def render_training_letter_images(
     text_lines,
     image_dir="letter_images",
