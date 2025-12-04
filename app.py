@@ -320,6 +320,8 @@ def index():
         if not lines:
             text = request.form.get("text", "")
             lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+        if not lines:
+            return '❌ Ошибка: текст не введён', 400
 
         # --- 2. Чтение числовых параметров ---
         def _f(name, default):
@@ -403,6 +405,18 @@ def index():
                 else:
                     print(f"❌ GIF НЕ создан! Проверь render_training_letter_images и путь сохранения.")
 
+            except Exception as e:
+                print(f"❌ Ошибка при генерации GIF: {e}")
+                return "Ошибка при создании GIF", 500
+
+        # Генерация SVG
+        #svg_buffer = io.BytesIO()
+        #fig.savefig(svg_buffer, format="svg", bbox_inches="tight")
+        #svg_buffer.seek(0)
+        #generated_svg = svg_buffer
+        generated_svg = None
+
+        
                 # --- Рендер ---
                 renderer = TextRenderer(
                     font_path=font_path,
@@ -423,16 +437,6 @@ def index():
                     thin_step_h=thin_step_h,
                     thin_step_v=thin_step_v
                 )
-            except Exception as e:
-                print(f"❌ Ошибка при генерации GIF: {e}")
-                return "Ошибка при создании GIF", 500
-
-        # Генерация SVG
-        #svg_buffer = io.BytesIO()
-        #fig.savefig(svg_buffer, format="svg", bbox_inches="tight")
-        #svg_buffer.seek(0)
-        #generated_svg = svg_buffer
-        generated_svg = None
 
         # --- Сохранение PDF и PNG в память ---
         buf_pdf, buf_png = io.BytesIO(), io.BytesIO()
@@ -471,8 +475,7 @@ def download_pdf():
         buffer_copy = io.BytesIO(data)
         buffer_copy.seek(0)
         return send_file(buffer_copy,
-                         as_attachment=True,
-                         download_name="gost_titul.pdf",
+                         as_attachment=True, as_attachment=True, download_name="gost_titul.pdf",
                          mimetype="application/pdf")
     return "PDF не создан"
 
@@ -492,8 +495,7 @@ def download_png():
         buffer_copy = io.BytesIO(data)
         buffer_copy.seek(0)
         return send_file(buffer_copy,
-                         as_attachment=True,
-                         download_name="gost_titul.png",
+                         as_attachment=True, as_attachment=True, download_name="gost_titul.png",
                          mimetype="image/png")
     return "PNG не создан"
 
@@ -502,7 +504,7 @@ def download_svg():
     global generated_svg
     if not generated_svg:
         return "SVG не сгенерирован", 404
-    return send_file(generated_svg, mimetype="image/svg+xml", as_attachment=True, download_name="gost_output.svg")    
+    return send_file(generated_svg, mimetype="image/svg+xml", as_attachment=True, as_attachment=True, download_name="gost_output.svg")    
 
 
 # ------------------------------------------------
@@ -516,7 +518,7 @@ def download_gif():
     gif_files = sorted(glob.glob(os.path.join(tmp_dir, "training_*.gif")), key=os.path.getmtime, reverse=True)
     if gif_files:
         latest = gif_files[0]
-        return send_file(latest, as_attachment=True, download_name="training_images.gif", mimetype="image/gif")
+        return send_file(latest, as_attachment=True, as_attachment=True, download_name="training_images.gif", mimetype="image/gif")
     return "GIF не найден", 404
 @app.route("/readme")
 def show_readme():
