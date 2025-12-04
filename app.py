@@ -396,9 +396,9 @@ def index():
 
                 gif_path = os.path.join(output_dir, "training_images.gif")
                 render_training_letter_images(lines, save_path=gif_path)
-                    if os.path.exists(gif_path):
+                if os.path.exists(gif_path):
                 print(f"[✅] GIF создан и находится по пути: {gif_path}")
-            else:
+                else:
                 print(f"[❌] GIF НЕ создан! Проверь render_training_letter_images и путь сохранения.")
 
 
