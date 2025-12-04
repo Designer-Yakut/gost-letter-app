@@ -475,7 +475,7 @@ def download_pdf():
         buffer_copy = io.BytesIO(data)
         buffer_copy.seek(0)
         return send_file(buffer_copy,
-                         as_attachment=True, as_attachment=True, download_name="gost_titul.pdf",
+                         as_attachment=True, download_name="gost_titul.pdf",
                          mimetype="application/pdf")
     return "PDF не создан"
 
@@ -495,7 +495,7 @@ def download_png():
         buffer_copy = io.BytesIO(data)
         buffer_copy.seek(0)
         return send_file(buffer_copy,
-                         as_attachment=True, as_attachment=True, download_name="gost_titul.png",
+                         as_attachment=True, download_name="gost_titul.png",
                          mimetype="image/png")
     return "PNG не создан"
 
@@ -504,7 +504,7 @@ def download_svg():
     global generated_svg
     if not generated_svg:
         return "SVG не сгенерирован", 404
-    return send_file(generated_svg, mimetype="image/svg+xml", as_attachment=True, as_attachment=True, download_name="gost_output.svg")    
+    return send_file(generated_svg, mimetype="image/svg+xml", as_attachment=True, download_name="gost_output.svg")    
 
 
 # ------------------------------------------------
@@ -518,7 +518,7 @@ def download_gif():
     gif_files = sorted(glob.glob(os.path.join(tmp_dir, "training_*.gif")), key=os.path.getmtime, reverse=True)
     if gif_files:
         latest = gif_files[0]
-        return send_file(latest, as_attachment=True, as_attachment=True, download_name="training_images.gif", mimetype="image/gif")
+        return send_file(latest, as_attachment=True, download_name="training_images.gif", mimetype="image/gif")
     return "GIF не найден", 404
 @app.route("/readme")
 def show_readme():
