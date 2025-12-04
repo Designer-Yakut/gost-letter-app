@@ -235,7 +235,7 @@ Yakutsenak 2025</textarea>
 
 
     {% if generated %}
-    #<p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
+    <p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
       <p style="margin-top: 20px;">
 
       <div style="line-height: 0.4em;">
@@ -396,7 +396,10 @@ def index():
 
                 gif_filename = f"training_{uuid4().hex}.gif"
                 gif_path = os.path.join(output_dir, gif_filename)
-                render_training_letter_images(lines, save_path=gif_path)
+                try:
+            render_training_letter_images(lines, save_path=gif_path)
+        except Exception as e:
+            print(f"❌ Ошибка генерации GIF: {e}")
 
                 if os.path.exists(gif_path):
                     print(f"✅ GIF создан и находится по пути: {gif_path}")
@@ -470,8 +473,7 @@ def download_pdf():
         # Создаём новый BytesIO для отправки клиенту
         buffer_copy = io.BytesIO(data)
         buffer_copy.seek(0)
-        return send_file(buffer_copy,
-                         download_name="gost_titul.pdf",
+        return send_file(buffer_copy, as_attachment=True, download_name="gost_titul.pdf",
                          mimetype="application/pdf")
     return "PDF не создан"
 
@@ -490,8 +492,7 @@ def download_png():
             data = b""
         buffer_copy = io.BytesIO(data)
         buffer_copy.seek(0)
-        return send_file(buffer_copy,
-                         download_name="gost_titul.png",
+        return send_file(buffer_copy, as_attachment=True, download_name="gost_titul.png",
                          mimetype="image/png")
     return "PNG не создан"
 
@@ -500,7 +501,7 @@ def download_svg():
     global generated_svg
     if not generated_svg:
         return "SVG не сгенерирован", 404
-    return send_file(generated_svg, mimetype="image/svg+xml", download_name="gost_output.svg")    
+    return send_file(generated_svg, mimetype="image/svg+xml", as_attachment=True, as_attachment=True, download_name="gost_output.svg")    
 
 
 # ------------------------------------------------
@@ -509,12 +510,18 @@ def download_svg():
 
 @app.route("/download/gif")
 def download_gif():
-    import glob
-    tmp_dir = os.path.join("static", "tmp")
-    gif_files = sorted(glob.glob(os.path.join(tmp_dir, "training_*.gif")), key=os.path.getmtime, reverse=True)
-    if gif_files:
-        latest = gif_files[0]
-        return send_file(latest, download_name="training_images.gif", mimetype="image/gif")
+    import os, glob
+    from flask import send_file
+    from datetime import datetime
+
+    date_str = datetime.now().strftime('%Y-%m-%d')
+    folders = glob.glob(f"output_{date_str}_*")
+    if folders:
+        output_dir = folders[0]
+        gif_path = os.path.join(output_dir, "training_images.gif")
+        if os.path.exists(gif_path):
+            return send_file(gif_path, as_attachment=True, download_name="training_images.gif",
+                             mimetype="image/gif")
     return "GIF не найден", 404
 @app.route("/readme")
 def show_readme():
@@ -568,7 +575,10 @@ def generate_gif_only():
     start = time.perf_counter()
 
     try:
-        render_training_letter_images(lines, save_path=gif_path)
+        try:
+            render_training_letter_images(lines, save_path=gif_path)
+        except Exception as e:
+            print(f"❌ Ошибка генерации GIF: {e}")
         gen_time = round(time.perf_counter() - start, 2)
 
         if not os.path.exists(gif_path):
