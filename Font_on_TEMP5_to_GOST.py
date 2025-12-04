@@ -260,7 +260,6 @@ def render_training_letter_images(
     text_lines,
     save_path="training_images.gif",
     image_dir="letter_images",
-    save_path="training_images.gif",
     canvas_size=(300, 300),
     frame_duration=0.5
 ):
