@@ -22,6 +22,7 @@
 # ================================================================
 
 from flask import Flask, render_template_string, request, send_file
+from flask import after_this_request, render_template
 import io
 import os
 from Font_on_TEMP5_to_GOST import TextRenderer, render_training_letter_images
