@@ -235,7 +235,7 @@ Yakutsenak 2025</textarea>
 
 
     {% if generated %}
-    #<p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
+    <p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
       <p style="margin-top: 20px;">
 
       <div style="line-height: 0.4em;">
