@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Результат</title>
+  <meta charset="utf-8">
+  <title>GIF результат</title>
 </head>
-<body>
-    <h2>Сгенерированный GIF:</h2>
-    <img src="{{ gif_url }}" alt="GIF" style="max-width:100%; height:auto;">
+<body style="font-family: sans-serif; background: #f4f4f4; padding: 20px;">
+  <h2>✅ Сгенерированный GIF:</h2>
+  <p>Время генерации: {{ generation_time }} сек</p>
+  <img src="{{ gif_url }}" alt="GIF" style="max-width: 100%; height: auto; border: 1px solid #ccc;">
+
+  <p style="margin-top: 20px;">
+    <a href="{{ gif_url }}" download>⬇ Скачать GIF</a> |
+    <a href="{{ retry_url }}">🔁 Вернуться</a>
+  </p>
 </body>
 </html>
