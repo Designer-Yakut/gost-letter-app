@@ -418,25 +418,25 @@ def index():
 
         
                 # --- Рендер ---
-                renderer = TextRenderer(
-                    font_path=font_path,
-                    spacing=spacing,
-                    font_size=font_size,
-                    frame_color=frame_color,
-                    grid_color=grid_color,
-                    font_color=font_color,
-                    line_width=line_width
-                )
-
-                fig = renderer.render_to_figure(
-                    lines,
-                    show_grid=show_grid,
-                    show_font=show_font,
-                    dots_only=dots_only,
-                    classic_grid=classic_grid,
-                    thin_step_h=thin_step_h,
-                    thin_step_v=thin_step_v
-                )
+        renderer = TextRenderer(
+        font_path=font_path,
+        spacing=spacing,
+        font_size=font_size,
+        frame_color=frame_color,
+        grid_color=grid_color,
+        font_color=font_color,
+        line_width=line_width
+        )
+        
+        fig = renderer.render_to_figure(
+        lines,
+        show_grid=show_grid,
+        show_font=show_font,
+        dots_only=dots_only,
+        classic_grid=classic_grid,
+        thin_step_h=thin_step_h,
+        thin_step_v=thin_step_v
+        )
 
         # --- Сохранение PDF и PNG в память ---
         buf_pdf, buf_png = io.BytesIO(), io.BytesIO()
