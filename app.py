@@ -381,7 +381,7 @@ def index():
         font_path = os.path.join(FONTS_DIR, font_file)
         
         # --- Режим обучения (реальные символы) — создаёт training_real.gif ---
-        if "training_real" in request.form:
+        if 'training_real' in request.form:
             try:
                 from Font_on_TEMP5_to_GOST import render_training_letter_images
                 output_dir = request.form.get("output_dir")
@@ -390,45 +390,41 @@ def index():
                     import getpass
                     username = getpass.getuser()
                     date_str = datetime.now().strftime("%Y-%m-%d")
+                    output_dir = os.path.join("static", "tmp")
+                os.makedirs(output_dir, exist_ok=True)
 
-                    output_dir = os.path.join("static", "tmp")#--------------- Выбор папки для GIF анимации
-                    os.makedirs(output_dir, exist_ok=True)
+                gif_filename = f"training_{uuid4().hex}.gif"
+                gif_path = os.path.join(output_dir, gif_filename)
+                render_training_letter_images(lines, save_path=gif_path)
 
-                    gif_filename = f"training_{uuid4().hex}.gif"
-                    gif_path = os.path.join(output_dir, gif_filename)
-                    render_training_letter_images(lines, save_path=gif_path)
+                if os.path.exists(gif_path):
+                    print(f"✅ GIF создан и находится по пути: {gif_path}")
+                else:
+                    print(f"❌ GIF НЕ создан! Проверь render_training_letter_images и путь сохранения.")
 
-                    if os.path.exists(gif_path):
-                        print(f"[✅] GIF создан и находится по пути: {gif_path}")
-                    else:
-                        print(f"[❌] GIF НЕ создан! Проверь render_training_letter_images и путь сохранения.")
+                # --- Рендер ---
+                renderer = TextRenderer(
+                    font_path=font_path,
+                    spacing=spacing,
+                    font_size=font_size,
+                    frame_color=frame_color,
+                    grid_color=grid_color,
+                    font_color=font_color,
+                    line_width=line_width
+                )
 
-
-    try:
-        # --- Рендер ---
-        renderer = TextRenderer(
-            font_path=font_path,
-            spacing=spacing,
-            font_size=font_size,
-            frame_color=frame_color,
-            grid_color=grid_color,
-            font_color=font_color,
-            line_width=line_width
-        )
-
-        fig = renderer.render_to_figure(
-            lines,
-            show_grid=show_grid,
-            show_font=show_font,
-            dots_only=dots_only,
-            classic_grid=classic_grid,
-            thin_step_h=thin_step_h,
-            thin_step_v=thin_step_v
-        )
-
-    except Exception as e:
-        print(f"❌ Ошибка при генерации GIF: {e}")
-        return "Ошибка при создании GIF", 500
+                fig = renderer.render_to_figure(
+                    lines,
+                    show_grid=show_grid,
+                    show_font=show_font,
+                    dots_only=dots_only,
+                    classic_grid=classic_grid,
+                    thin_step_h=thin_step_h,
+                    thin_step_v=thin_step_v
+                )
+            except Exception as e:
+                print(f"❌ Ошибка при генерации GIF: {e}")
+                return "Ошибка при создании GIF", 500
 
         # Генерация SVG
         #svg_buffer = io.BytesIO()
