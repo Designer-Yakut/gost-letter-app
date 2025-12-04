@@ -404,8 +404,8 @@ def index():
                         print(f"[❌] GIF НЕ создан! Проверь render_training_letter_images и путь сохранения.")
 
 
-
-                # --- Рендер ---
+    try:
+        # --- Рендер ---
         renderer = TextRenderer(
             font_path=font_path,
             spacing=spacing,
@@ -426,6 +426,10 @@ def index():
             thin_step_v=thin_step_v
         )
 
+    except Exception as e:
+        print(f"❌ Ошибка при генерации GIF: {e}")
+        return "Ошибка при создании GIF", 500
+        
         # Генерация SVG
         #svg_buffer = io.BytesIO()
         #fig.savefig(svg_buffer, format="svg", bbox_inches="tight")
@@ -557,24 +561,37 @@ import time
 
 @app.route("/generate_gif_only", methods=["POST"])
 def generate_gif_only():
+    from uuid import uuid4
+    from Font_on_TEMP5_to_GOST import render_training_letter_images
+
     lines = request.form.get("text", "").splitlines()
     lines = [ln.strip() for ln in lines if ln.strip()]
     if not lines:
         return "Нет текста", 400
 
-    output_dir = "static/tmp"
+    # Папка для временных gif
+    output_dir = os.path.join("static", "tmp")
     os.makedirs(output_dir, exist_ok=True)
+
+    # Уникальное имя файла
     gif_filename = f"training_{uuid4().hex}.gif"
     gif_path = os.path.join(output_dir, gif_filename)
 
+    import time
     start = time.perf_counter()
-    render_training_letter_images(lines, save_path=gif_path)
-    gen_time = round(time.perf_counter() - start, 2)
 
-    return redirect(url_for("show_gif", filename=gif_filename, t=gen_time))
+    try:
+        render_training_letter_images(lines, save_path=gif_path)
+        gen_time = round(time.perf_counter() - start, 2)
 
-from flask import render_template, request, after_this_request
-import os
+        if not os.path.exists(gif_path):
+            return "Ошибка генерации GIF", 500
+
+        return redirect(url_for("show_gif", filename=gif_filename, t=gen_time))
+    except Exception as e:
+        print(f"❌ Ошибка в generate_gif_only: {e}")
+        return f"Ошибка при создании GIF: {e}", 500
+
 
 @app.route("/show_gif")
 def show_gif():
