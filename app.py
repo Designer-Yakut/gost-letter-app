@@ -390,16 +390,16 @@ def index():
                     import getpass
                     username = getpass.getuser()
                     date_str = datetime.now().strftime("%Y-%m-%d")
-                    output_dir = f"output_{date_str}_{username}" # Выбор папки для GIF анимации
+                    output_dir = f"output_{date_str}_{username}" #--------------- Выбор папки для GIF анимации
 
                 os.makedirs(output_dir, exist_ok=True)
 
                 gif_path = os.path.join(output_dir, "training_images.gif")
                 render_training_letter_images(lines, save_path=gif_path)
                 if os.path.exists(gif_path):
-                print(f"[✅] GIF создан и находится по пути: {gif_path}")
+                    print(f"[✅] GIF создан и находится по пути: {gif_path}")
                 else:
-                print(f"[❌] GIF НЕ создан! Проверь render_training_letter_images и путь сохранения.")
+                    print(f"[❌] GIF НЕ создан! Проверь render_training_letter_images и путь сохранения.")
 
 
                 print(f"✅ training_images.gif сохранён в: {gif_path}")
