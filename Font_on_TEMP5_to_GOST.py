@@ -269,6 +269,7 @@ def render_training_letter_images(
     """
 
     print("🎞 Создание gif-анимации из изображений букв...")
+    print(f"[📥] Сохраняем в файл: {save_path}")
 
     frames = []
     for line in text_lines:
@@ -293,16 +294,19 @@ def render_training_letter_images(
         print("⚠️ Нет доступных букв для создания анимации.")
         return
 
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)    
+    # Убедиться, что папка для файла существует
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
+    # Сохранение GIF
     frames[0].save(
         save_path,
         save_all=True,
         append_images=frames[1:],
-        duration=int(frame_duration * 5000), # — это длительность одного кадра в миллисекундах
+        duration=int(frame_duration * 5000),  # миллисекунды на кадр
         loop=0
     )
 
     print(f"✅ GIF сохранён: {save_path}")
+
 
 
