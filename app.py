@@ -235,7 +235,7 @@ Yakutsenak 2025</textarea>
 
 
     {% if generated %}
-    <p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
+    #<p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
       <p style="margin-top: 20px;">
 
       <div style="line-height: 0.4em;">
@@ -511,20 +511,12 @@ def download_svg():
 
 @app.route("/download/gif")
 def download_gif():
-    import os, glob
-    from flask import send_file
-    from datetime import datetime
-
-    date_str = datetime.now().strftime('%Y-%m-%d')
-    folders = glob.glob(f"output_{date_str}_*")
-    if folders:
-        output_dir = folders[0]
-        gif_path = os.path.join(output_dir, "training_images.gif")
-        if os.path.exists(gif_path):
-            return send_file(gif_path,
-                             as_attachment=True,
-                             download_name="training_images.gif",
-                             mimetype="image/gif")
+    import glob
+    tmp_dir = os.path.join("static", "tmp")
+    gif_files = sorted(glob.glob(os.path.join(tmp_dir, "training_*.gif")), key=os.path.getmtime, reverse=True)
+    if gif_files:
+        latest = gif_files[0]
+        return send_file(latest, as_attachment=True, download_name="training_images.gif", mimetype="image/gif")
     return "GIF не найден", 404
 @app.route("/readme")
 def show_readme():
