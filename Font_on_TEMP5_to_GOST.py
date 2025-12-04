@@ -1,4 +1,4 @@
-# Font_on_TEMP5_to_GOST.py (точки теперь точно в начале каждого слова) 025.12.04
+# Font_on_TEMP5_to_GOST.py (точки теперь точно в начале каждого слова) 025.12.04.1
 #  Сетка меняется
 
 import matplotlib
@@ -258,6 +258,7 @@ import os
 
 def render_training_letter_images(
     text_lines,
+    save_path="training_images.gif",
     image_dir="letter_images",
     save_path="training_images.gif",
     canvas_size=(300, 300),
@@ -293,6 +294,9 @@ def render_training_letter_images(
     if not frames:
         print("⚠️ Нет доступных букв для создания анимации.")
         return
+
+    # Убедиться, что папка для файла существует
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
     # Убедиться, что папка для файла существует
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
