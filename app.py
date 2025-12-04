@@ -241,6 +241,10 @@ Yakutsenak 2025</textarea>
       <div style="line-height: 0.4em;">
 
       <p><a href="/download/pdf">📄 Скачать PDF</a></p>
+<p><a href="{{ url_for('static', filename='demo/eva_story_01.gif') }}" target="_blank" style="color:#0275d8;">
+🎥 Смотреть презентацию
+</a></p>
+
       <p><a href="/download/png">🖼️ Скачать PNG</a></p>
       <p>
       <a href="/download/svg">🧬 Скачать SVG</a>
