@@ -170,7 +170,7 @@ HTML_FORM = """
     По стандарту шаг вертикальных линий равен шагу горизонтальных линий и равен толщине линий шрифта.
     </span><br><br>
 
-    <b>Цвета элементов:</b><br>
+    <b>Цвета элементов</b><br>
 
     <label for="frame_color">Цвет рамки:</label>
     <select name="frame_color" id="frame_color">
@@ -235,12 +235,17 @@ Yakutsenak 2025</textarea>
 
 
     {% if generated %}
-    #<p><a href="/download/gif">🎞️ Скачать training_images.gif</a></p>
+    #<p><a href="/download/gif">🎞️ Скачать training_images.gif (в режиме обучения)</a></p>
       <p style="margin-top: 20px;">
 
       <div style="line-height: 0.4em;">
 
-      <p><a href="/download/pdf">📄 Скачать PDF</a></p><a href="/download/png">🖼️ Скачать PNG</a></p>
+      <p><a href="/download/pdf">📄 Скачать PDF</a></p>
+<p><a href="{{ url_for('static', filename='demo/eva_story_01.gif') }}" target="_blank" style="color:#0275d8;">
+🎥 Смотреть презентацию
+</a></p>
+
+      <p><a href="/download/png">🖼️ Скачать PNG</a></p>
       <p>
       <a href="/download/svg">🧬 Скачать SVG</a>
       <span style="font-size: 0.8em; color: #FF8C00; margin-left: 8px;">
