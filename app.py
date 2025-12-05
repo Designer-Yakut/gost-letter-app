@@ -1,4 +1,5 @@
-# app.py (добавлена поддержка dots_only) 2025.12.05.2
+# app.py (добавлена презентация) 2025.12.05.2
+# app.py (добавлена поддержка dots_only)
 # app.py (добавлена поддержка изменения сетки)
 #⚙️app.py с встроенным JavaScript для динамического пересчёта при изменении высоты букв;
 #🧾и с пояснением под шагом вертикальных линий (по ГОСТ).
@@ -587,30 +588,8 @@ def download_gif():
         latest = gif_files[0]
         return send_file(latest, as_attachment=True, download_name="training_images.gif", mimetype="image/gif")
     return "GIF не найден", 404
-@app.route("/readme")
-def show_readme():
-    """
-    Отображает содержимое README.md в виде HTML-страницы.
-    """
-    try:
-        with open("README.md", "r", encoding="utf-8") as f:
-            content = f.read()
-        return f"""
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <title>README.md</title>
-        </head>
-        <body style="font-family: monospace; background: #fdfdfd; padding: 20px;">
-            <h2>📘 Содержимое README.md</h2>
-            <pre style="white-space: pre-wrap; font-size: 14px;">{content}</pre>
-            <p><a href="/" style="color: #0074D9;">⬅ Вернуться к форме</a></p>
-        </body>
-        </html>
-        """
-    except FileNotFoundError:
-        return "<p style='color:red;'>❌ README.md не найден.</p>", 404
 
+#Здесь была нижнюю реализацию show_readme
 
 
 from flask import redirect, url_for
