@@ -1,4 +1,4 @@
-# app.py (добавлена поддержка dots_only) 2025.12.04
+# app.py (добавлена поддержка dots_only) 2025.12.05
 # app.py (добавлена поддержка изменения сетки)
 #⚙️app.py с встроенным JavaScript для динамического пересчёта при изменении высоты букв;
 #🧾и с пояснением под шагом вертикальных линий (по ГОСТ).
@@ -170,14 +170,11 @@ HTML_FORM = """
     По стандарту шаг вертикальных линий равен шагу горизонтальных линий и равен толщине линий шрифта.
     </span><br><br>
 
-    <b>Цвета элементов</b><br>
-
     <label for="frame_color">Цвет рамки:</label>
     <select name="frame_color" id="frame_color">
       <option value="#B3E5FC" selected>Light Sky Blue (#B3E5FC)</option>
       <option value="#AAAAAA">Gray (#AAAAAA)</option>
     </select>
-
 
     <label for="grid_color">Цвет сетки:</label>
     <select name="grid_color" id="grid_color">
@@ -212,12 +209,12 @@ HTML_FORM = """
           {% endif %}
       {% endfor %}
     </select>
-    <p>
-    <label>Введите текст ниже или выберите файл</label>
-    <span style="font-size: 0.8em; color: #FF8C00; margin-left: 8px;">
-            *Минимум строк и символов для Render, зависит от h
+
+    <label>Введите текст ниже или выберите файл
+      <span style="font-size: 0.8em; color: #FF8C00; margin-left: 8px;">
+        *Минимум строк и символов для Render, зависит от h
       </span>
-    <p>
+    </label>
     <textarea name="text" rows="6" cols="60">Автор
 Yakutsenak 2025</textarea>
 
@@ -229,28 +226,27 @@ Yakutsenak 2025</textarea>
       Режим обучения (символы кириллицы и латиницы из текста. Без знаков! см. gif)
     </span>
 
-
     <input type="submit" value="Сгенерировать gif(V), PDF, PNG и SVG">
-    <p><a href="/readme" target="_blank">📘 Просмотреть README.md</a></p>
 
+    <p><a href="/readme" target="_blank">📘 Просмотреть README.md</a></p>
+    <p style="margin-top: -6px;">
+      <a href="{{ url_for('static', filename='demo/eva_story_01.gif') }}" target="_blank" style="color:#0275d8;">
+        🎥 Смотреть презентацию
+      </a>
+    </p>
 
     {% if generated %}
-    #<p><a href="/download/gif">🎞️ Скачать training_images.gif (в режиме обучения)</a></p>
-      <p style="margin-top: 20px;">
+    <div style="line-height: 0.4em; margin-top: 20px;">
 
-      <div style="line-height: 0.4em;">
-
-      <p><a href="/download/pdf">📄 Скачать PDF</a></p><a href="{{ url_for('static', filename='demo/eva_story_01.gif') }}" target="_blank" style="color:#0275d8;">
-🎥 Смотреть презентацию
-</a></p>
-
+      <p><a href="/download/pdf">📄 Скачать PDF</a></p>
       <p><a href="/download/png">🖼️ Скачать PNG</a></p>
       <p>
-      <a href="/download/svg">🧬 Скачать SVG</a>
-      <span style="font-size: 0.8em; color: #FF8C00; margin-left: 8px;">
-        *Функция не поддерживается на Render (малые инстансы, 512MB памяти)
-      </span>
-    </p>
+        <a href="/download/svg">🧬 Скачать SVG</a>
+        <span style="font-size: 0.8em; color: #FF8C00; margin-left: 8px;">
+          *Функция не поддерживается на Render (малые инстансы, 512MB памяти)
+        </span>
+      </p>
+    </div>
     {% endif %}
   </form>
 
@@ -263,7 +259,6 @@ Yakutsenak 2025</textarea>
         const stepV = document.getElementById("thin_step_v");
         const spacingInput = document.getElementsByName("spacing")[0];
         const fontSize = parseFloat(fontSizeInput.value);
-
 
         if (autoCheckbox.checked && !isNaN(fontSize)) {
             const lw = (fontSize / 14).toFixed(1);
