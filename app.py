@@ -1,4 +1,4 @@
-# app.py (добавлена поддержка dots_only) 2025.12.05.1
+# app.py (добавлена поддержка dots_only) 2025.12.05.2
 # app.py (добавлена поддержка изменения сетки)
 #⚙️app.py с встроенным JavaScript для динамического пересчёта при изменении высоты букв;
 #🧾и с пояснением под шагом вертикальных линий (по ГОСТ).
@@ -21,6 +21,7 @@
 #   ✅ Чекбокс "Использовать серую палитру" (0.6 / 0.4 / 0.6)
 # ================================================================
 
+import markdown
 from flask import Flask, render_template_string, request, send_file
 from flask import after_this_request, render_template
 import io
@@ -57,6 +58,70 @@ def safe_render(renderer, lines, output_format="pdf", **kwargs):
 #  ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ
 # ------------------------------------------------
 app = Flask(__name__)
+
+@app.route("/readme")
+def show_readme():
+    readme_path = os.path.join(BASE_DIR, "README.md")
+    if not os.path.isfile(readme_path):
+        return "<h2>README.md не найден</h2>"
+
+    with open(readme_path, encoding="utf-8") as f:
+        content = f.read()
+
+    html = markdown.markdown(
+        content,
+        extensions=["extra", "tables", "nl2br", "sane_lists"]
+    )
+
+    return render_template_string(f"""
+    <!DOCTYPE html>
+    <html lang='ru'>
+    <head>
+        <meta charset='utf-8'>
+        <title>README.md</title>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                padding: 40px;
+                max-width: 980px;
+                margin: auto;
+                background-color: #f9f9f9;
+                color: #111;
+                line-height: 1.6;
+            }}
+            h1, h2, h3 {{ color: #2c3e50; }}
+            pre, code {{
+                background-color: #f3f3f3;
+                padding: 4px 6px;
+                border-radius: 4px;
+                font-family: Consolas, monospace;
+            }}
+            table {{
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }}
+            table, th, td {{
+                border: 1px solid #ccc;
+                padding: 8px;
+            }}
+            th {{
+                background-color: #eee;
+            }}
+            a {{
+                color: #0074D9;
+                text-decoration: none;
+            }}
+            a:hover {{
+                text-decoration: underline;
+            }}
+        </style>
+    </head>
+    <body>
+    {html}
+    </body>
+    </html>
+    """)
 
 # ------------------------------------------------
 #  НАСТРОЙКИ
