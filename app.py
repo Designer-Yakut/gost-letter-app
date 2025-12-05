@@ -240,6 +240,7 @@ Yakutsenak 2025</textarea>
     </p>
 
     {% if generated %}
+    <p><a href="/download/gif">🎞️ Скачать training_images.gif (в режиме обучения)</a></p>
     <div style="line-height: 0.4em; margin-top: 20px;">
       <p><a href="/download/pdf">📄 Скачать PDF</a></p>
       <p><a href="/download/png">🖼️ Скачать PNG</a></p>
