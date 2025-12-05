@@ -1,4 +1,4 @@
-# app.py (добавлена поддержка dots_only) 2025.12.05
+# app.py (добавлена поддержка dots_only) 2025.12.05.1
 # app.py (добавлена поддержка изменения сетки)
 #⚙️app.py с встроенным JavaScript для динамического пересчёта при изменении высоты букв;
 #🧾и с пояснением под шагом вертикальных линий (по ГОСТ).
@@ -121,17 +121,17 @@ HTML_FORM = """
       border-radius: 4px;
       box-sizing: border-box;
     }
-    input[type="submit"] {
+    .submit-green {
       padding: 10px 18px;
-      background-color: #4682B4;
+      background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       margin-top: 10px;
     }
-    input[type="submit"]:hover {
-      background-color: #4169E1;
+    .submit-green:hover {
+      background-color: #43A047;
     }
     a {
       display: inline-block;
@@ -142,6 +142,10 @@ HTML_FORM = """
     }
     a:hover {
       text-decoration: underline;
+    }
+    .readme-link {
+      color: #0074D9;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -226,9 +230,9 @@ Yakutsenak 2025</textarea>
       Режим обучения (символы кириллицы и латиницы из текста. Без знаков! см. gif)
     </span>
 
-    <input type="submit" value="Сгенерировать gif(V), PDF, PNG и SVG">
+    <input type="submit" value="Сгенерировать gif(V), PDF, PNG и SVG" class="submit-green">
 
-    <p><a href="/readme" target="_blank">📘 Просмотреть README.md</a></p>
+    <p><a href="/readme" target="_blank" class="readme-link">📘 Просмотреть README.md</a></p>
     <p style="margin-top: -6px;">
       <a href="{{ url_for('static', filename='demo/eva_story_01.gif') }}" target="_blank" style="color:#0275d8;">
         🎥 Смотреть презентацию
@@ -237,7 +241,6 @@ Yakutsenak 2025</textarea>
 
     {% if generated %}
     <div style="line-height: 0.4em; margin-top: 20px;">
-
       <p><a href="/download/pdf">📄 Скачать PDF</a></p>
       <p><a href="/download/png">🖼️ Скачать PNG</a></p>
       <p>
